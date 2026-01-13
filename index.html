@@ -4,7 +4,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tanda Familiar de Cumpleaños</title>
+
+    <title>Tanda Familiar de Cumpleaños 🎉</title>
+
+    <link rel="icon" href="https://fav.farm/🎂" />
+
+    <meta property="og:title" content="🎂 Tanda Familiar - Calendario">
+    <meta property="og:description"
+        content="Entra para ver quién cumple años, los eventos próximos y cuánto hay que dar de tanda.">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="https://api.dicebear.com/7.x/adventurer/png?seed=Familia&backgroundColor=ffdfbf">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -18,7 +30,7 @@
                         'fiesta-red': '#ff6b6b',
                         'fiesta-teal': '#4ecdc4',
                         'fiesta-dark': '#2d3436',
-                        'fiesta-purple': '#8e44ad', // Nuevo color para eventos
+                        'fiesta-purple': '#8e44ad',
                     }
                 }
             }
@@ -42,7 +54,7 @@
     <main class="max-w-5xl mx-auto px-4 pb-12">
 
         <section id="next-birthday-section"
-            class="bg-white rounded-3xl shadow-lg border-2 border-fiesta-red/20 p-8 mb-8 text-center transform transition hover:scale-[1.01] duration-300 relative overflow-hidden">
+            class="bg-white rounded-3xl shadow-lg border-2 border-fiesta-red/20 p-8 mb-8 text-center relative overflow-hidden">
             <div class="absolute top-0 right-0 bg-fiesta-red text-white text-xs font-bold px-3 py-1 rounded-bl-xl">
                 PRÓXIMO</div>
 
@@ -85,6 +97,23 @@
     <footer class="text-center text-gray-400 text-sm pb-8">
         <p>Hecho con ❤️ para la familia</p>
     </footer>
+
+    <div id="image-modal"
+        class="fixed inset-0 z-50 hidden bg-black/90 backdrop-blur-sm flex items-center justify-center p-4 transition-opacity duration-300"
+        onclick="closeModal()">
+
+        <button class="absolute top-4 right-4 text-white text-4xl font-bold hover:text-gray-300 z-50">&times;</button>
+
+        <div class="relative w-full h-full flex items-center justify-center">
+            <img id="modal-img" src="" alt="Zoom Personaje"
+                class="max-w-full max-h-full object-contain rounded-lg shadow-2xl transform transition-transform duration-300 scale-95 hover:scale-100"
+                onclick="event.stopPropagation()">
+        </div>
+
+        <p class="absolute bottom-8 text-white/80 text-sm bg-black/50 px-4 py-2 rounded-full pointer-events-none">
+            Toca afuera para cerrar
+        </p>
+    </div>
 
     <script src="script.js"></script>
 </body>

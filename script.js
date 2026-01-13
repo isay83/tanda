@@ -16,8 +16,7 @@ const familyMembers = [
     { name: "Sebas", date: "12-26", image: "img/kevin.png", style: "adventurer" }
 ];
 
-// EVENTOS INDEPENDIENTES (YYYY-MM-DD)
-// El código buscará el más cercano a HOY
+// EVENTOS INDEPENDIENTES
 const events = [
     { date: "2026-01-18", title: "Celebración de José 🍖", time: "3:00 PM" },
     { date: "2026-02-02", title: "Tamales Candelaria 🫔", time: "6:00 PM" }
@@ -27,7 +26,7 @@ const events = [
 
 const currentYear = new Date().getFullYear();
 const today = new Date();
-today.setHours(0, 0, 0, 0); // Normalizar hora para comparaciones
+today.setHours(0, 0, 0, 0);
 
 const amountPerPerson = 100;
 const totalMembers = familyMembers.length;
@@ -37,12 +36,11 @@ const totalPrize = (totalMembers - 1) * amountPerPerson;
 document.getElementById('total-members').textContent = totalMembers;
 document.getElementById('total-amount').textContent = `$${totalPrize} MXN`;
 
-// 1. Procesar fechas de cumpleaños
+// 1. Procesar fechas
 const sortedMembers = familyMembers.map(member => {
     const [month, day] = member.date.split('-').map(Number);
     let nextBirthday = new Date(currentYear, month - 1, day);
 
-    // Si ya pasó, sumar un año
     if (nextBirthday < today) {
         nextBirthday.setFullYear(currentYear + 1);
     }
@@ -63,7 +61,7 @@ function formatDateES(date) {
     return date.toLocaleDateString('es-ES', options);
 }
 
-// 2. Renderizar PRÓXIMO CUMPLEAÑERO (Sección Hero)
+// 2. Renderizar PRÓXIMO CUMPLEAÑERO
 const nextBday = sortedMembers[0];
 const diffTime = nextBday.nextDate - today;
 const daysUntil = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
@@ -75,10 +73,16 @@ const nextImageSrc = getMemberImage(nextBday);
 const waMessage = `¡Hola familia! Recuerden que ${isToday ? 'HOY' : 'pronto'} es el cumple de ${nextBday.name}. Hay que ir juntando los $100 pesos. 🥳`;
 const waLink = `https://wa.me/?text=${encodeURIComponent(waMessage)}`;
 
+// Agregué el evento onclick="openModal(...)" a la imagen
 nextContainer.innerHTML = `
-    <div class="relative group">
+    <div class="relative group cursor-pointer" onclick="openModal('${nextImageSrc}')">
         <div class="absolute -inset-1 bg-gradient-to-r from-fiesta-red to-orange-400 rounded-full blur opacity-25 group-hover:opacity-75 transition duration-200"></div>
-        <img src="${nextImageSrc}" alt="${nextBday.name}" class="relative w-40 h-40 rounded-full bg-orange-50 border-4 border-white shadow-md mb-4 object-cover">
+        <img src="${nextImageSrc}" alt="${nextBday.name}" 
+             class="relative w-40 h-40 rounded-full bg-orange-50 border-4 border-white shadow-md mb-4 object-cover transform transition hover:scale-105"
+             title="¡Click para ver en grande!">
+        <div class="absolute bottom-4 right-0 bg-white rounded-full p-1 shadow-sm border border-gray-200">
+             <span class="text-xs">🔍</span>
+        </div>
     </div>
     
     <h3 class="text-3xl font-bold text-gray-800 mb-1">${nextBday.name}</h3>
@@ -98,19 +102,16 @@ nextContainer.innerHTML = `
     </a>
 `;
 
-// 3. Renderizar NUEVO BANNER DE EVENTOS (Rectángulo intermedio)
+// 3. Renderizar BANNER DE EVENTOS
 const bannerSection = document.getElementById('event-banner-section');
-
-// Buscar próximo evento (independiente de cumpleaños)
 const upcomingEvents = events
     .map(e => {
         const parts = e.date.split('-');
-        // Crear fecha local (sin restar zona horaria)
         const evtDate = new Date(parts[0], parts[1] - 1, parts[2]);
         return { ...e, fullDate: evtDate };
     })
-    .filter(e => e.fullDate >= today) // Solo futuros o de hoy
-    .sort((a, b) => a.fullDate - b.fullDate); // Ordenar por fecha
+    .filter(e => e.fullDate >= today)
+    .sort((a, b) => a.fullDate - b.fullDate);
 
 if (upcomingEvents.length > 0) {
     const nextEvent = upcomingEvents[0];
@@ -118,11 +119,8 @@ if (upcomingEvents.length > 0) {
     const daysEvt = Math.ceil(diffEvt / (1000 * 60 * 60 * 24));
 
     bannerSection.classList.remove('hidden');
-
-    // Diseño del rectángulo: Fondo blanco, borde lateral morado
     bannerSection.innerHTML = `
         <div class="bg-white rounded-2xl shadow-md border-l-8 border-fiesta-purple p-6 w-full flex flex-col md:flex-row items-center justify-between gap-4">
-            
             <div class="flex items-center gap-4">
                 <div class="bg-purple-100 text-fiesta-purple p-3 rounded-full">
                     <span class="text-2xl">🎉</span>
@@ -132,11 +130,9 @@ if (upcomingEvents.length > 0) {
                     <p class="text-gray-500 text-sm">📅 ${formatDateES(nextEvent.fullDate)} - 🕒 ${nextEvent.time || 'Hora por definir'}</p>
                 </div>
             </div>
-
             <div class="bg-purple-50 text-fiesta-purple font-bold px-4 py-2 rounded-lg text-sm whitespace-nowrap">
                 ${daysEvt === 0 ? '¡ES HOY!' : `Faltan ${daysEvt} días`}
             </div>
-            
         </div>
     `;
 }
@@ -152,11 +148,7 @@ if (isToday) {
     }
     fire(0.25, { spread: 26, startVelocity: 55, });
     fire(0.2, { spread: 60, });
-    fire(0.35, { spread: 100, decay: 0.91, scalar: 0.8 });
-    fire(0.1, { spread: 120, startVelocity: 25, decay: 0.92, scalar: 1.2 });
-    fire(0.1, { spread: 120, startVelocity: 45, });
 }
-
 
 // 4. Renderizar CALENDARIO
 const grid = document.getElementById('calendar-grid');
@@ -171,9 +163,6 @@ chronologicalMembers.forEach(member => {
     const [m, d] = member.date.split('-');
     const avatarUrl = getMemberImage(member);
 
-    // NOTA: Ya no mostramos eventos aquí adentro para no saturar,
-    // ya que ahora tienen su propio rectángulo destacado arriba.
-
     const isMemberBirthdayToday = (parseInt(m) === today.getMonth() + 1 && parseInt(d) === today.getDate());
 
     const card = document.createElement('div');
@@ -182,10 +171,14 @@ chronologicalMembers.forEach(member => {
         cardClasses += " ring-4 ring-fiesta-teal ring-offset-2 transform scale-105 z-10";
     }
 
+    // Agregué el onclick también aquí
     card.className = cardClasses;
     card.innerHTML = `
-        <div class="w-20 h-20 rounded-full bg-gray-100 mb-4 overflow-hidden border-2 border-white shadow-sm group-hover:scale-110 transition duration-300">
-            <img src="${avatarUrl}" alt="${member.name}" class="w-full h-full object-cover">
+        <div class="w-20 h-20 rounded-full bg-gray-100 mb-4 overflow-hidden border-2 border-white shadow-sm group-hover:scale-110 transition duration-300 cursor-pointer relative" onclick="openModal('${avatarUrl}')">
+            <img src="${avatarUrl}" alt="${member.name}" class="w-full h-full object-cover" title="Ver grande">
+            <div class="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition duration-300 flex items-center justify-center">
+                 <span class="text-white opacity-0 group-hover:opacity-100 text-xs font-bold bg-black/30 px-2 rounded-full">Ver</span>
+            </div>
         </div>
         <h4 class="font-bold text-lg text-gray-800">${member.name}</h4>
         <div class="bg-orange-100 text-orange-600 text-xs font-bold px-3 py-1 rounded-full mt-2">
@@ -194,3 +187,35 @@ chronologicalMembers.forEach(member => {
     `;
     grid.appendChild(card);
 });
+
+
+// --- 5. FUNCIONES PARA EL MODAL (Lightbox) ---
+
+// Abrir el modal con la imagen seleccionada
+window.openModal = function (imageSrc) {
+    const modal = document.getElementById('image-modal');
+    const modalImg = document.getElementById('modal-img');
+
+    modalImg.src = imageSrc;
+    modal.classList.remove('hidden');
+    // Pequeña animación de entrada
+    setTimeout(() => {
+        modalImg.classList.remove('scale-95');
+        modalImg.classList.add('scale-100');
+    }, 10);
+}
+
+// Cerrar el modal
+window.closeModal = function () {
+    const modal = document.getElementById('image-modal');
+    const modalImg = document.getElementById('modal-img');
+
+    // Animación de salida opcional
+    modalImg.classList.remove('scale-100');
+    modalImg.classList.add('scale-95');
+
+    setTimeout(() => {
+        modal.classList.add('hidden');
+        modalImg.src = ''; // Limpiar src
+    }, 150);
+}
