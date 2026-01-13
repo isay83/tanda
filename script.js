@@ -1,17 +1,17 @@
 // --- CONFIGURACIÓN DE DATOS ---
 
 const familyMembers = [
-    { name: "Abue", date: "09-17", style: "adventurer" },
-    { name: "Abuelo", date: "11-13", style: "adventurer" },
-    { name: "Vero", date: "05-30", style: "adventurer" },
-    { name: "Efra", date: "08-17", style: "adventurer" },
-    { name: "Lola", date: "07-15", style: "adventurer" },
-    { name: "Fabi", date: "11-19", style: "adventurer" },
-    { name: "Dani", date: "03-20", style: "adventurer" },
-    { name: "Michelle", date: "08-15", style: "adventurer" },
-    { name: "José", date: "01-11", style: "adventurer" },
-    { name: "Pau", date: "06-24", style: "adventurer" },
-    { name: "Fer", date: "01-28", style: "adventurer" },
+    { name: "Abue", date: "09-17", image: "img/madre_gothel.png", style: "adventurer" },
+    { name: "Abuelo", date: "11-13", image: "img/tim_lockwood.png", style: "adventurer" },
+    { name: "Vero", date: "05-30", image: "img/la_baronesa.png", style: "adventurer" },
+    { name: "Efra", date: "08-17", image: "img/gordon_freeman.png", style: "adventurer" },
+    { name: "Lola", date: "07-15", image: "img/morticia.png", style: "adventurer" },
+    { name: "Fabi", date: "11-19", image: "img/Anastasia.png", style: "adventurer" },
+    { name: "Dani", date: "03-20", image: "img/veronica_lodge.png", style: "adventurer" },
+    { name: "Michelle", date: "08-15", image: "img/vanessa.png", style: "adventurer" },
+    { name: "José", date: "01-11", image: "img/gerald_johanssen.png", style: "adventurer" },
+    { name: "Pau", date: "06-24", image: "img/misato_katsuragi.png", style: "adventurer" },
+    { name: "Fer", date: "01-28", image: "img/hipo.png", style: "adventurer" },
     { name: "Diego", date: "10-07", image: "img/gus.png", style: "adventurer" },
     { name: "Sebas", date: "12-26", image: "img/kevin.png", style: "adventurer" }
 ];
