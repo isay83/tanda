@@ -11,9 +11,9 @@ const familyMembers = [
     { name: "Michelle", date: "08-15", image: "img/vanessa.png", style: "adventurer" },
     { name: "José", date: "01-11", image: "img/gerald_johanssen.png", style: "adventurer" },
     { name: "Pau", date: "06-24", image: "img/misato_katsuragi.png", style: "adventurer" },
-    { name: "Fer", date: "01-28", image: "img/hipo.png", style: "adventurer" },
-    { name: "Diego", date: "10-07", image: "img/gus.png", style: "adventurer" },
-    { name: "Sebas", date: "12-26", image: "img/kevin.png", style: "adventurer" }
+    { name: "Fer", date: "01-28", image: "img/hipo.png", style: "adventurer" }
+    // { name: "Diego", date: "10-07", image: "img/gus.png", style: "adventurer" },
+    // { name: "Sebas", date: "12-26", image: "img/kevin.png", style: "adventurer" }
 ];
 
 // EVENTOS INDEPENDIENTES
